@@ -1,9 +1,11 @@
 const Koa = require('koa')	
 const bodyParser = require('koa-bodyparser');
-
+const static = require('koa-static')
 const app =new Koa()
 
+const staticPath = './static'
 app.use(bodyParser());
+app.use(static(__dirname, './static'))
 // app.use(async (ctx)=> {
 //   let request = ctx.request
 //   let url = ctx.url
