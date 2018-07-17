@@ -2,6 +2,7 @@ const Koa = require('koa')
 const bodyParser = require('koa-bodyparser');
 const static = require('koa-static')
 const router = require('koa-router')()
+const fs = require('fs')
 
 const app =new Koa()
 
@@ -42,14 +43,21 @@ router.post('/', (ctx, next) => {
     let postData = ctx.request.body
     ctx.body = postData
 })
+
+router.get('/bird', async(ctx, next) => {
+    console.log(__dirname + '/vajraFate.github.io/index.html')
+    ctx.body = await fs.readFile(__dirname + '/vajraFate.github.io/index.html', 'utf8')
+   
+})
+
 router.get('/404', (ctx, next) => {
     ctx.body = '<h1>404!</h1>'
 })
-
 app.use(router.routes())
 app.use(router.allowedMethods())
 
 app.listen(9991, () => {
+    console.log(__dirname + '/vajraFate.github.io/index.html')
   console.log('koa2 已经开启')
 });
 
