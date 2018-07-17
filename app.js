@@ -47,7 +47,7 @@ router.get('/404', (ctx, next) => {
 })
 
 app.use(router.routes())
-app.use(router.allowMethods())
+app.use(router.allowedMethods())
 
 // app.use(async(ctx)=>{
 //   if(ctx.url==='/' && ctx.method==='GET'){
