@@ -9,6 +9,7 @@ const app =new Koa()
 const staticPath = './static'
 app.use(bodyParser());
 app.use(static(__dirname, './static'))
+app.use(static(__dirname, './vajraFate.github.io'))
 // app.use(async (ctx)=> {
 //   let request = ctx.request
 //   let url = ctx.url
@@ -46,7 +47,13 @@ router.post('/', (ctx, next) => {
 
 router.get('/bird', async(ctx, next) => {
     console.log(__dirname + '/vajraFate.github.io/index.html')
-    ctx.body = await fs.readFile(__dirname + '/vajraFate.github.io/index.html', 'utf8')
+    ctx.response.type = 'html'
+    ctx.body = await new Promise((resovle, reject) => {
+        fs.readFile(__dirname + '/vajraFate.github.io/index.html', 'utf8', function(err, file) {
+            // console.log(file)
+            resovle(file)
+        })
+    })
    
 })
 
