@@ -3,6 +3,7 @@ const bodyParser = require('koa-bodyparser');
 const static = require('koa-static')
 const router = require('koa-router')()
 const fs = require('fs')
+const session = require('koa-session')
 
 const app =new Koa()
 
@@ -10,6 +11,13 @@ const staticPath = './static'
 app.use(bodyParser());
 app.use(static(__dirname, './static'))
 app.use(static(__dirname, './vajraFate.github.io'))
+
+app.keys = ['vajra']
+app.use(session({
+    key: 'SESSIONID',
+    renew: true,
+    maxAge: 10000
+}, app))
 // app.use(async (ctx)=> {
 //   let request = ctx.request
 //   let url = ctx.url
@@ -24,6 +32,7 @@ app.use(static(__dirname, './vajraFate.github.io'))
 //   // console.log(ctx.request)
 //   ctx.body = ctx.request
 // })
+
 router.get('/', (ctx, next) => {
     let html=`
           <h1>JSPang Koa2 request POST</h1>
@@ -37,12 +46,14 @@ router.get('/', (ctx, next) => {
               <button type="submit">submit</button>
           </form>
       `;
+      ctx.session.vajra = 'vajra223'
       ctx.body = html
 })
 
 router.post('/', (ctx, next) => {
     let postData = ctx.request.body
     ctx.body = postData
+    console.log(ctx.session.vajra)
 })
 
 router.get('/bird', async(ctx, next) => {
